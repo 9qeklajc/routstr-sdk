@@ -259,10 +259,11 @@ export function isTokenConsumedError(parsed: ParsedCoreError): boolean {
 /**
  * A 401 meaning the API key does not exist on this node.
  *
- * routstr-core >= 0.4.7 reports this with a structured `key_not_found` code;
- * older nodes only send the `"Key not found. …"` message (bare `detail` string
- * on the refund path, or no code at all), so the message is kept as a
- * fallback. Either way the key is permanently dead and should be purged.
+ * The refund path sends a structured `key_not_found` code since routstr-core
+ * 0.4.5, and the auth path after routstr-core#779. Older nodes only send the
+ * `"Key not found. …"` message (a bare `detail` string on the refund path), so
+ * the message is also matched whenever the code does not match. Either way the
+ * key is permanently dead and should be purged.
  */
 export function isKeyNotFoundError(parsed: ParsedCoreError): boolean {
   return (
